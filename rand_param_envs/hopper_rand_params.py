@@ -39,6 +39,7 @@ class HopperRandParamsEnv(RandomEnv, utils.EzPickle):
         self.viewer.cam.lookat[2] += .8
         self.viewer.cam.elevation = -20
 
+
 if __name__ == "__main__":
 
     env = HopperRandParamsEnv()
