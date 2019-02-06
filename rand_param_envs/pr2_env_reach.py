@@ -16,9 +16,9 @@ class PR2Env(RandomEnv, utils.EzPickle):
         return np.concatenate([
             self.model.data.qpos.flat[:7],
             self.model.data.qvel.flat[:7],  # Do not include the velocity of the target (should be 0).
-            self.get_tip_position(),
-            self.get_vec_tip_to_goal(),
-        ]).reshape(-1)
+            self.get_tip_position().flat,
+            self.get_vec_tip_to_goal().flat,
+        ])
 
     def get_tip_position(self):
         return self.model.data.site_xpos[0]
@@ -58,7 +58,7 @@ class PR2Env(RandomEnv, utils.EzPickle):
         qpos[:7] += self.np_random.uniform(low=-.005, high=.005,  size=7)
         qvel[:7] += self.np_random.uniform(low=-.005, high=.005,  size=7)
         self.set_state(qpos, qvel)
-
+        return self._get_obs()
 
     def viewer_setup(self):
         self.viewer.cam.distance = self.model.stat.extent * 2
